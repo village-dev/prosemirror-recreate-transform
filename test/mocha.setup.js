@@ -1,4 +1,4 @@
-const jsdom = require("jsdom");
+import jsdom from "jsdom";
 
 // So we can get `requestAnimationFrame`
 const dom = new jsdom.JSDOM("", { pretendToBeVisual: true });

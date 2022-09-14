@@ -3,19 +3,18 @@ import schema from "../support/schema";
 import { AnyObject } from "../../src/types";
 const testSchema = schema.create();
 
-
-export function doc(...content) {
+export function doc(...content: any[]) {
     return Node.fromJSON(testSchema, {
         type: "doc",
-        content
+        content,
     });
 }
 
-export function node(type: string, attrs: AnyObject, ...content) {
+export function node(type: string, attrs: AnyObject, ...content: any[]) {
     return { type, attrs, content };
 }
 
-export function p(...content) {
+export function p(...content: any[]) {
     return { type: "paragraph", content };
 }
 

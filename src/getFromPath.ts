@@ -1,5 +1,4 @@
-import { AnyObject } from "./types";
-
+import { JSONValue } from "./types";
 
 /**
  * get target value from json-pointer (e.g. /content/0/content)
@@ -7,11 +6,14 @@ import { AnyObject } from "./types";
  * @param  {string}    path json-pointer
  * @return {any} target value
  */
-export function getFromPath(obj: AnyObject, path: string): any {
+export function getFromPath(obj: JSONValue, path: string): JSONValue {
     const pathParts = path.split("/");
     pathParts.shift(); // remove root-entry
     while (pathParts.length) {
-        const property = pathParts.shift();
+        if (typeof obj != "object" || obj instanceof Array) {
+            throw new Error();
+        }
+        const property = pathParts.shift() as string;
         obj = obj[property];
     }
     return obj;

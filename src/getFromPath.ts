@@ -10,10 +10,11 @@ export function getFromPath(obj: JSONValue, path: string): JSONValue {
     const pathParts = path.split("/");
     pathParts.shift(); // remove root-entry
     while (pathParts.length) {
-        if (typeof obj != "object" || obj instanceof Array) {
+        if (typeof obj != "object") {
             throw new Error();
         }
         const property = pathParts.shift() as string;
+        // @ts-expect-error property is a string but obj may be an array
         obj = obj[property];
     }
     return obj;

@@ -1,6 +1,6 @@
 import { Node } from "prosemirror-model";
 import schema from "../support/schema";
-import { AnyObject } from "../../src/types";
+import { JSONObject } from "../../src/types";
 const testSchema = schema.create();
 
 export function doc(...content: any[]) {
@@ -10,7 +10,7 @@ export function doc(...content: any[]) {
     });
 }
 
-export function node(type: string, attrs: AnyObject, ...content: any[]) {
+export function node(type: string, attrs: JSONObject, ...content: any[]) {
     return { type, attrs, content };
 }
 

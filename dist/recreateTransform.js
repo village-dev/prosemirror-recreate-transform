@@ -54,7 +54,7 @@ function getFromPath(obj, path) {
   const pathParts = path.split("/");
   pathParts.shift();
   while (pathParts.length) {
-    if (typeof obj != "object" || obj instanceof Array) {
+    if (typeof obj != "object") {
       throw new Error();
     }
     const property = pathParts.shift();

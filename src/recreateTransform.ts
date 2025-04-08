@@ -99,6 +99,18 @@ export class RecreateTransform {
                 try {
                     toDoc = this.schema.nodeFromJSON(afterStepJSON);
                     toDoc.check();
+
+                    // NOTE(John): Added this because, when the schema converts the JSON,
+                    // it may succeed but drop invalid values, e.g. if a node's attributes
+                    // are changed before the node's type is correctly changed. To address
+                    // this, we add an additional check to see if the converted JSON is
+                    // equal to the JSON that we're patching, because even if intermediate
+                    // patches result in invalid states, the patches collectively should
+                    // be accurate. However, I'm not sure how robust this stringify compare
+                    // is... not sure if toDoc maintains the order of the input attributes.
+                    if (JSON.stringify(toDoc.toJSON()) !== JSON.stringify(afterStepJSON)) {
+                        throw new Error("Schema-converted JSON differs from patched JSON.")
+                    }
                 } catch (error) {
                     toDoc = null;
                     if (this.ops.length > 0) {

@@ -127,6 +127,9 @@ class RecreateTransform {
         try {
           toDoc = this.schema.nodeFromJSON(afterStepJSON);
           toDoc.check();
+          if (JSON.stringify(toDoc.toJSON()) !== JSON.stringify(afterStepJSON)) {
+            throw new Error("Schema-converted JSON differs from patched JSON.");
+          }
         } catch (error) {
           toDoc = null;
           if (this.ops.length > 0) {

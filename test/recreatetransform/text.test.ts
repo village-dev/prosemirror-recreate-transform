@@ -10,9 +10,9 @@ function testRecreate(
     options: Options = {}
 ) {
     const tr = recreateTransform(startDoc, endDoc, options);
-    assert.equal(
-        JSON.stringify(tr.steps.map((step) => step.toJSON())),
-        JSON.stringify(steps)
+    assert.deepEqual(
+        tr.steps.map((step) => step.toJSON()),
+        steps
     );
 }
 

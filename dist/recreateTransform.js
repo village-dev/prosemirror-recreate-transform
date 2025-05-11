@@ -1,6 +1,7 @@
 import { ReplaceStep, Transform } from 'prosemirror-transform';
 import { createPatch, applyPatch } from 'rfc6902';
 import { diffWordsWithSpace, diffChars } from 'diff';
+import { deepEqual } from 'fast-equals';
 
 function getReplaceStep(fromDoc, toDoc) {
   let start = toDoc.content.findDiffStart(fromDoc.content);
@@ -127,7 +128,7 @@ class RecreateTransform {
         try {
           toDoc = this.schema.nodeFromJSON(afterStepJSON);
           toDoc.check();
-          if (JSON.stringify(toDoc.toJSON()) !== JSON.stringify(afterStepJSON)) {
+          if (!deepEqual(copy(toDoc.toJSON()), afterStepJSON)) {
             throw new Error("Schema-converted JSON differs from patched JSON.");
           }
         } catch (error) {

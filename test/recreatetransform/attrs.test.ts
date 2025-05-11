@@ -2,6 +2,7 @@ import { strict as assert } from "assert";
 import { Node } from "prosemirror-model";
 import { recreateTransform, Options } from "../../src/recreateTransform";
 import { doc, node, p, t } from "../support/pm";
+import { copy } from "../../src/copy";
 
 function testRecreate(
     startDoc: Node,
@@ -11,13 +12,9 @@ function testRecreate(
 ) {
     // console.log(startDoc.toJSON(), endDoc.toJSON());
     const tr = recreateTransform(startDoc, endDoc, options);
-    assert.equal(
-        JSON.stringify(
-            tr.steps.map((step) => step.toJSON()),
-            null,
-            2
-        ),
-        JSON.stringify(steps, null, 2)
+    assert.deepEqual(
+        copy(tr.steps.map((step) => step.toJSON())),
+        steps
     );
 }
 

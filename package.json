@@ -26,6 +26,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "diff": "^5.1.0",
+    "fast-equals": "^5.2.2",
     "prosemirror-model": "^1.18.1",
     "prosemirror-transform": "^1.7.0",
     "rfc6902": "^5.0.1"

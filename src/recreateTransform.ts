@@ -9,6 +9,7 @@ import { removeMarks } from "./removeMarks";
 import { getFromPath } from "./getFromPath";
 import { copy } from "./copy";
 import { ReplaceOperation } from "rfc6902/diff";
+import {deepEqual} from 'fast-equals'
 
 export interface Options {
     complexSteps?: boolean;
@@ -106,9 +107,12 @@ export class RecreateTransform {
                     // this, we add an additional check to see if the converted JSON is
                     // equal to the JSON that we're patching, because even if intermediate
                     // patches result in invalid states, the patches collectively should
-                    // be accurate. However, I'm not sure how robust this stringify compare
-                    // is... not sure if toDoc maintains the order of the input attributes.
-                    if (JSON.stringify(toDoc.toJSON()) !== JSON.stringify(afterStepJSON)) {
+                    // be accurate.
+                    // 
+                    // Note that we copy() toDoc before comparing to remove any
+                    // prototype differences (since copy() uses JSON.parse/stringify), as
+                    // we only care about the data in the object.
+                    if (!deepEqual(copy(toDoc.toJSON()), afterStepJSON)) {
                         throw new Error("Schema-converted JSON differs from patched JSON.")
                     }
                 } catch (error) {
